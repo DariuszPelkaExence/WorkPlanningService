@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.Extensions.Logging;
 using Teamway.WorkPlanningService.Model;
-using Teamway.WorkPlanningService.Repository;
+using Teamway.WorkPlanningService.Repo;
 
 namespace Teamway.WorkPlanningService.Controllers
 {
@@ -22,9 +22,10 @@ namespace Teamway.WorkPlanningService.Controllers
 
         private readonly IRepository _repository;
 
-        public ShiftController(ILogger<ShiftController> logger)
+        public ShiftController(ILogger<ShiftController> logger, IRepository repository)
         {
             _logger = logger;
+            _repository = repository;
         }
 
         [System.Web.Http.HttpGet]
@@ -42,10 +43,10 @@ namespace Teamway.WorkPlanningService.Controllers
         }
 
         [System.Web.Http.HttpGet]
-        public IActionResult GetShiftPerWorker(int workerId)
+        public IActionResult GetShiftsPerWorker(int workerId)
         {
-            var shifst = _repository.GetShiftPerWorker(workerId);
-            return Ok(shifst);
+            var shifts = _repository.GetShiftsPerWorker(workerId);
+            return Ok(shifts);
         }
 
         [Microsoft.AspNetCore.Mvc.HttpPost]
@@ -55,9 +56,9 @@ namespace Teamway.WorkPlanningService.Controllers
 
             if (worker != null)
             {
-                var overlappingShiftsExist = _repository.GetShiftsForWorker(shift.WorkerId, shift.Starts, shift.Ends);
+                var shiftsExist = _repository.WorkerHasSameOrPreviousOrNextShift(shift.WorkerId, shift.Day, shift.Type);
 
-                if (!overlappingShiftsExist)
+                if (!shiftsExist)
                 {
                     var operationStatus = _repository.AddShift(shift);
 
@@ -76,16 +77,28 @@ namespace Teamway.WorkPlanningService.Controllers
                         throw new HttpResponseException(error);
                     }
                 }
+                else
+                {
+                    var error = new HttpResponseMessage(HttpStatusCode.BadRequest)
+                    {
+                        Content = new StringContent("Shift same, previous ot next exists", System.Text.Encoding.UTF8,
+                            "text/plain"),
+                        StatusCode = HttpStatusCode.NotFound
+                    };
+                    throw new HttpResponseException(error);
+                }
             }
-
-            var response = new HttpResponseMessage(HttpStatusCode.NotFound)
+            else
             {
-                Content = new StringContent("Worker doesn't exist", System.Text.Encoding.UTF8,
-                    "text/plain"),
-                StatusCode = HttpStatusCode.NotFound
-            };
-            throw new HttpResponseException(response);
 
+                var response = new HttpResponseMessage(HttpStatusCode.NotFound)
+                {
+                    Content = new StringContent("Worker doesn't exist", System.Text.Encoding.UTF8,
+                        "text/plain"),
+                    StatusCode = HttpStatusCode.NotFound
+                };
+                throw new HttpResponseException(response);
+            }
         }
 
         [System.Web.Http.HttpDelete]

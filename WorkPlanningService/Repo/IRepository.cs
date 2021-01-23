@@ -4,15 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using Teamway.WorkPlanningService.Model;
 
-namespace Teamway.WorkPlanningService.Repository
+namespace Teamway.WorkPlanningService.Repo
 {
     public interface IRepository
     {
-        bool GetShiftsForWorker(int workerId, DateTime from, DateTime to);
+        bool WorkerHasSameOrPreviousOrNextShift(int workerId, DateTime day, ShiftType type);
 
         AddShiftStatus AddShift(Shift shift);
 
-        IList<Shift> GetShiftPerWorker(int workerId);
+        IList<Shift> GetShiftsPerWorker(int workerId);
 
         Shift GetShift(int shiftId);
 

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Teamway.WorkPlanningService.Model;
-using Teamway.WorkPlanningService.Repository;
+using Teamway.WorkPlanningService.Repo;
 
 namespace Teamway.WorkPlanningService.Controllers
 {
@@ -15,12 +15,12 @@ namespace Teamway.WorkPlanningService.Controllers
     public class WorkerController : ControllerBase
     {
         private readonly ILogger<WorkerController> _logger;
-
         private readonly IRepository _repository;
 
-        public WorkerController(ILogger<WorkerController> logger)
+        public WorkerController(ILogger<WorkerController> logger, IRepository repository)
         {
             _logger = logger;
+            _repository = repository;
         }
 
         [HttpPost]

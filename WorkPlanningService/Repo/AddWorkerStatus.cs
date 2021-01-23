@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Teamway.WorkPlanningService.Repository
+namespace Teamway.WorkPlanningService.Repo
 {
-    public enum AddShiftStatus
+    public enum AddWorkerStatus
     {
-        Ok = 0,
-        Error = 1
+        Ok = 0
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Teamway.WorkPlanningService.Model;
 
-namespace Teamway.WorkPlanningService.Repository
+namespace Teamway.WorkPlanningService.Repo
 {
     public class Repository : IRepository
     {
@@ -21,12 +21,45 @@ namespace Teamway.WorkPlanningService.Repository
             return _workers.FirstOrDefault(m => m.Id == workerId);
         }
 
-        public bool GetShiftsForWorker(int workerId, DateTime from, DateTime to)
+        public bool WorkerHasSameOrPreviousOrNextShift(int workerId, DateTime day, ShiftType type)
         {
-            return _shifts.Any(m => m.WorkerId == workerId && ((from >= m.Starts && from <= m.Ends) || (to > m.Starts && to < m.Ends)) || (to > m.Ends && from < m.Starts));
+            DateTime previousShiftDay = day;
+            ShiftType previousShiftType = type;
+            DateTime nextShiftDay = day;
+            ShiftType nextShiftType = type;
+
+            switch (type)
+            {
+                case ShiftType.ShiftFrom0To8:
+                    previousShiftDay = day.AddDays(-1);
+                    previousShiftType = ShiftType.ShiftFrom16To24;
+                    nextShiftDay = day;
+                    nextShiftType = ShiftType.ShiftFrom8To16;
+                    break;
+
+                case ShiftType.ShiftFrom8To16:
+                    previousShiftDay = day;
+                    previousShiftType = ShiftType.ShiftFrom0To8;
+                    nextShiftDay = day;
+                    nextShiftType = ShiftType.ShiftFrom16To24;
+                    break;
+
+                case ShiftType.ShiftFrom16To24:
+                    previousShiftDay = day;
+                    previousShiftType = ShiftType.ShiftFrom8To16;
+                    nextShiftDay = day.AddDays(1);
+                    nextShiftType = ShiftType.ShiftFrom0To8;
+                    break;
+                default:
+                    break;
+            }
+
+            return _shifts.Any(m => (m.WorkerId == workerId && m.Day == day && m.Type == type)
+            || (m.WorkerId == workerId && m.Day == previousShiftDay && m.Type == previousShiftType)
+            || (m.WorkerId == workerId && m.Day == nextShiftDay && m.Type == nextShiftType));
         }
 
-        public IList<Shift> GetShiftPerWorker(int workerId)
+        public IList<Shift> GetShiftsPerWorker(int workerId)
         {
             return _shifts.Where(m => m.Id == workerId).ToList();
         }
