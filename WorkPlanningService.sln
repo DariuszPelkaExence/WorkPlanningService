@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkPlanningService", "WorkPlanningService\WorkPlanningService.csproj", "{FA2FE2B0-2BEE-46D7-A182-574F1AE03DA7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestWorkPlanningServiceProject", "UnitTestWorkPlanningServiceProject\UnitTestWorkPlanningServiceProject.csproj", "{E2CD14F1-A0F9-496F-A936-09A8983673AF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FA2FE2B0-2BEE-46D7-A182-574F1AE03DA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA2FE2B0-2BEE-46D7-A182-574F1AE03DA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA2FE2B0-2BEE-46D7-A182-574F1AE03DA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA2FE2B0-2BEE-46D7-A182-574F1AE03DA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2CD14F1-A0F9-496F-A936-09A8983673AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2CD14F1-A0F9-496F-A936-09A8983673AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2CD14F1-A0F9-496F-A936-09A8983673AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2CD14F1-A0F9-496F-A936-09A8983673AF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A20266D7-0DA5-4D3B-8DA9-25651D6226EC}
+	EndGlobalSection
+EndGlobal
