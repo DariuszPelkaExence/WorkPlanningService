@@ -16,6 +16,16 @@ namespace Teamway.WorkPlanningService.Repository
             return _shifts.FirstOrDefault(m => m.Id == shiftId);
         }
 
+        public Worker GetWorker(int workerId)
+        {
+            return _workers.FirstOrDefault(m => m.Id == workerId);
+        }
+
+        public bool GetShiftsForWorker(int workerId, DateTime from, DateTime to)
+        {
+            return _shifts.Any(m => m.WorkerId == workerId && ((from >= m.Starts && from <= m.Ends) || (to > m.Starts && to < m.Ends)) || (to > m.Ends && from < m.Starts));
+        }
+
         public IList<Shift> GetShiftPerWorker(int workerId)
         {
             return _shifts.Where(m => m.Id == workerId).ToList();

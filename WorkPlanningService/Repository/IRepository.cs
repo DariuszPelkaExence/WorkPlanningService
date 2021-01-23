@@ -8,11 +8,15 @@ namespace Teamway.WorkPlanningService.Repository
 {
     public interface IRepository
     {
+        bool GetShiftsForWorker(int workerId, DateTime from, DateTime to);
+
         AddShiftStatus AddShift(Shift shift);
 
         IList<Shift> GetShiftPerWorker(int workerId);
 
         Shift GetShift(int shiftId);
+
+        Worker GetWorker(int workerId);
 
         RemoveShiftStatus RemoveShift(int shiftId);
 
